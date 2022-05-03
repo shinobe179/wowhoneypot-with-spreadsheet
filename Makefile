@@ -8,6 +8,7 @@ init:
 	@adduser honeypotter --no-create-home --shell /sbin/nologin --uid 41832
 	@cp -rp ./WOWHoneypot /opt/WOWHoneypot
 	@cp -rp ./honeypot-watcher /opt/honeypot-watcher
+	@chmod 600 /opt/honeypot-watcher/client_credential.json
 	@touch /opt/WOWHoneypot/access_log
 	@chown -R honeypotter:honeypotter /opt/WOWHoneypot
 	@chown -R honeypotter:honeypotter /opt/honeypot-watcher
@@ -22,7 +23,7 @@ watcher:
 	@cp -p ./systemd/honeypot-watcher.service /etc/systemd/system/honeypot-watcher.service
 	@systemctl daemon-reload
 	@systemctl enable --now honeypot-watcher.service
-	@echo "[NOTE] If you don't set client_secret.json in /opt/honeypot-watcher, honeypot-watcher.service will be failed soon."
+	@echo "[NOTE] If valid client_secret.json is not set in /opt/honeypot-watcher, honeypot-watcher.service will be failed soon."
 	@echo "[NOTE] Please set up Google Cloud Sheet and Drive API, put client_secret.json in /opt/honeypot-watcher, and restart the service."
 
 iptables:
