@@ -30,5 +30,5 @@ iptables:
 	@iptables -F
 	@iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
 	@service iptables save
-	@systemctl restart iptables
+	@systemctl enable --now iptables
 
