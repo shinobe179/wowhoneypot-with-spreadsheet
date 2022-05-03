@@ -1,0 +1,4 @@
+log directory
+- access_log
+- wowhoneypot.log
+- hunting.log
