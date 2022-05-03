@@ -29,7 +29,7 @@ class TextFileEventHandler(PatternMatchingEventHandler):
         self.df = self._save_df()
         self.df_row_cnt = self._check_df_length()
 
-        # ここから任意の処理
+        # スプレッドシートへの送信処理
         rows = []
         for log in self.df[before_df_row_cnt:].to_numpy().tolist():
             log[0] = log[0].strip('[]').replace('+0900', '')
@@ -49,10 +49,6 @@ class TextFileEventHandler(PatternMatchingEventHandler):
         df = pd.read_csv(self.fullpath, header=None, delimiter='|')
         return df
     
-    def _print_df(self, start):
-        """指定したファイルのstartから最終行までを表示する"""
-        print(self.df[start:].to_string(index=False, header=None))
-
 
 def main():
 
