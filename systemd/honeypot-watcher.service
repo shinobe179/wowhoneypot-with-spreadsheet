@@ -1,0 +1,14 @@
+[Unit]
+Description=Honeypot watcher
+
+[Service]
+Type=simple
+ExecStart=/bin/python3 /opt/honeypot-watcher/watcher.py /opt/WOWHoneypot/log/ access_log
+Restart=always
+User=honeypotter
+Group=honeypotter
+WorkingDirectory=/opt/honeypot-watcher
+
+[Install]
+WantedBy=multi-user.target
+

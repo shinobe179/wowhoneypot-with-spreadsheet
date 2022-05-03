@@ -1,0 +1,14 @@
+[Unit]
+Description=WOWHoneypot
+
+[Service]
+Type=simple
+ExecStart=/bin/python3 /opt/WOWHoneypot/wowhoneypot.py
+Restart=always
+User=honeypotter
+Group=honeypotter
+WorkingDirectory=/opt/WOWHoneypot
+
+[Install]
+WantedBy=multi-user.target
+
