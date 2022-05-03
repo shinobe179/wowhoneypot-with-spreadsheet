@@ -1,4 +1,5 @@
-watcher/client_secret.json
+honeypot-watcher/client_secret.json
 __pycache__
 log/access_log
 log/wowhoneypot.log
+log/hunt.log
