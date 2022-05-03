@@ -1,2 +1,2 @@
-sensor_id = 'Singapore0'
-sensor_region = 'Singapore'
+sensor_id = ''
+sensor_region = ''
