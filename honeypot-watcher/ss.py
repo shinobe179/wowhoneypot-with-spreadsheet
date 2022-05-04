@@ -11,7 +11,8 @@ client = gspread.authorize(creds)
 # Make sure you use the right name here.
 sheet = client.open('honeypot-log').sheet1
 
-def append_rows(datas):
+
+def send_datas_to_spreadsheet(datas):
     for data in datas:
         sheet.append_row(data)
 
