@@ -1,0 +1,12 @@
+/opt/WOWHoneypot/log/access_log
+/opt/WOWHoneypot/log/wowhoneypot.log
+/opt/WOWHoneypot/log/hunting.log
+{
+    missingok
+    notifempty
+    copytruncate
+    daily
+    rotate 7
+    create 660 honeypotter honeypotter
+    compress
+}
