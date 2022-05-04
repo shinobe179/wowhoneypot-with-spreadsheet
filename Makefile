@@ -12,6 +12,8 @@ init:
 	@touch /opt/WOWHoneypot/access_log
 	@chown -R honeypotter:honeypotter /opt/WOWHoneypot
 	@chown -R honeypotter:honeypotter /opt/honeypot-watcher
+	@cp -p ./logrotate.d/WOWHoneypot /etc/logrotate.d/WOWHoneypot
+	@chmod 644 /etc/logrotate.d/WOWHoneypot
 
 honeypot:
 	@cp -p ./systemd/WOWHoneypot.service /etc/systemd/system/WOWHoneypot.service
