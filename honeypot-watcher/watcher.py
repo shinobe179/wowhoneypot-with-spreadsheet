@@ -1,71 +1,33 @@
 import base64
 import sys
 import time
-import pandas as pd
-from watchdog.observers import Observer
-from watchdog.events import PatternMatchingEventHandler
+
+from pygtail import Pygtail
 
 import config
 import ss
 
 
-class TextFileEventHandler(PatternMatchingEventHandler):
+def main(file_path):
+    new_lines = Pygtail(file_path)
 
-    def __init__(self, path, file_name, patterns=['*'], ignore_patterns=None, ignore_directories=True, case_sensitive=False):
-        self.path = path 
-        self.file_name = file_name
-        self.fullpath = path + file_name
-        self.df = self._save_df()
-        self.df_row_cnt = -1 
-        super().__init__(patterns, ignore_patterns, ignore_directories, case_sensitive)
-   
-    def on_modified(self, event):
-        """監視対象ファイルに変更があった時に実行される処理"""
+    while True:
+        logs = [line.split('|') for line in new_lines]
 
-        if event.src_path[-len(self.file_name):] != self.file_name:
-            return
-        
-        before_df_row_cnt = self.df_row_cnt
-        self.df = self._save_df()
-        self.df_row_cnt = self._check_df_length()
+        if len(logs) > 0:
+            datas = []
+            for log in logs:
+                log[0] = log[0].strip('[]').replace('+0900', '')
+                log[3] = log[3].strip('"')
+                log[6] = base64.b64decode(log[6]).decode()
+                log.append(config.sensor_id)
+                log.append(config.sensor_region)
+                datas.append(log)
+            ss.send_datas_to_spreadsheet(datas)
 
-        # スプレッドシートへの送信処理
-        rows = []
-        for log in self.df[before_df_row_cnt:].to_numpy().tolist():
-            log[0] = log[0].strip('[]').replace('+0900', '')
-            log[6] = base64.b64decode(log[6]).decode()
-            log.append(config.sensor_id)
-            log.append(config.sensor_region)
-            rows.append(log)
-        ss.append_rows(rows)
-
-    def _check_df_length(self):
-        """self.dfの行数を返す"""
-        row_cnt = len(self.df)
-        return row_cnt
-
-    def _save_df(self):
-        """self.fullpathで指定したファイルをPandas.Dataframeの形式で取得する"""
-        df = pd.read_csv(self.fullpath, header=None, delimiter='|')
-        return df
-    
-
-def main():
-
-    DIRECTORY = sys.argv[1] 
-    FILE = sys.argv[2]
-
-    observer = Observer()
-    observer.schedule(TextFileEventHandler(DIRECTORY, FILE), DIRECTORY, recursive=False) 
-    observer.start()
-
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        observer.unschedule_all()
-        observer.stop()
+        time.sleep(1)
 
 
 if __name__ == '__main__':
-    main()
+    file_path = sys.argv[1]
+    main(file_path)
