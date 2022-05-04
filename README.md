@@ -47,6 +47,22 @@ $ sudo yum -y install git
 $ git clone https://github.com/shinobe179/wowhoneypot-with-spreadsheet.git
 $ cd wowhoneypot-with-spreadsheet
 $ vim honeypot-watcher/client_secret.json # コメントを消して、GCPで発行したキーをコピペする
+```
+
+honeypot-watcher/config.pyを修正する。各値の意味は以下の通り。
+
+- sensor_id
+  - センサー（ハニーポット）の識別子。ログに記録される。
+- sensor_region
+  - センサー（ハニーポット）がある地域。ログに記録される。
+- book_name
+  - ログを書き込むスプレッドシートのファイル（ブック）名。
+- sheet_name
+  - ログを書き込むシート名。
+
+以下を実行すると、Makefileに書かれたセットアップ処理が自動で実行される。
+
+```
 $ sudo make
 ```
 
