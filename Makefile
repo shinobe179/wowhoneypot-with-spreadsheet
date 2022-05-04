@@ -19,7 +19,7 @@ honeypot:
 	@systemctl enable --now WOWHoneypot.service
 
 watcher:
-	@pip3 install pandas watchdog gspread oauth2client
+	@pip3 install pygtail gspread oauth2client
 	@cp -p ./systemd/honeypot-watcher.service /etc/systemd/system/honeypot-watcher.service
 	@systemctl daemon-reload
 	@systemctl enable --now honeypot-watcher.service
