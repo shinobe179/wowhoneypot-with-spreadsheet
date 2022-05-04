@@ -8,7 +8,7 @@ init:
 	@adduser honeypotter --no-create-home --shell /sbin/nologin --uid 41832
 	@cp -rp ./WOWHoneypot /opt/WOWHoneypot
 	@cp -rp ./honeypot-watcher /opt/honeypot-watcher
-	@chmod 600 /opt/honeypot-watcher/client_credential.json
+	@chmod 600 /opt/honeypot-watcher/client_secret.json
 	@touch /opt/WOWHoneypot/access_log
 	@chown -R honeypotter:honeypotter /opt/WOWHoneypot
 	@chown -R honeypotter:honeypotter /opt/honeypot-watcher
