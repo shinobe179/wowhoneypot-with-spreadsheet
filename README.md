@@ -3,6 +3,15 @@
 - WOWHoneypotのログをGoogleのスプレッドシートへ記録するための諸々が入ったリポジトリです。
 - Googleデータポータルを使ってダッシュボードを作ると、ログを可視化できていい楽しいです。
 
+# おおまかな仕組み
+
+- WOWHoneypot
+  - ハニーポット本体
+  - systemdのサービス（WOWHoneypot.service）として管理できる
+- honeypot-watcher
+  - WOWHoneypotのログ（access_log）を監視して、追加された行をスプレッドシートへ送る
+  - systemdのサービス（honeypot-watcher.service）として管理できる
+
 # セットアップ方法
 
 ## 事前準備
@@ -40,6 +49,7 @@ $ cd wowhoneypot-with-spreadsheet
 $ vim honeypot-watcher/client_secret.json # コメントを消して、GCPで発行したキーをコピペする
 $ sudo make
 ```
+
 ## 動作確認
 
 以下のコマンドを実行して、スプレッドシートにログが追記されたら成功！
