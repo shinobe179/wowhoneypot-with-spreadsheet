@@ -6,21 +6,21 @@ run:
 
 init:
 	@adduser honeypotter --no-create-home --shell /sbin/nologin --uid 41832
-	@cp -rp ./WOWHoneypot /opt/WOWHoneypot
-	@cp -rp ./honeypot-watcher /opt/honeypot-watcher
-	@chmod 600 /opt/honeypot-watcher/client_secret.json
-	@touch /opt/WOWHoneypot/access_log
-	@chown -R honeypotter:honeypotter /opt/WOWHoneypot
-	@chown -R honeypotter:honeypotter /opt/honeypot-watcher
-	@cp -p ./logrotate.d/WOWHoneypot /etc/logrotate.d/WOWHoneypot
-	@chmod 644 /etc/logrotate.d/WOWHoneypot
 
 honeypot:
+	@cp -rp ./WOWHoneypot /opt/WOWHoneypot
+	@touch /opt/WOWHoneypot/log/access_log
+	@chown -R honeypotter:honeypotter /opt/WOWHoneypot
+	@cp -p ./logrotate.d/WOWHoneypot /etc/logrotate.d/WOWHoneypot
+	@chmod 644 /etc/logrotate.d/WOWHoneypot
 	@cp -p ./systemd/WOWHoneypot.service /etc/systemd/system/WOWHoneypot.service
 	@systemctl daemon-reload
 	@systemctl enable --now WOWHoneypot.service
 
 watcher:
+	@cp -rp ./honeypot-watcher /opt/honeypot-watcher
+	@chmod 600 /opt/honeypot-watcher/client_secret.json
+	@chown -R honeypotter:honeypotter /opt/honeypot-watcher
 	@pip3 install pygtail gspread oauth2client
 	@cp -p ./systemd/honeypot-watcher.service /etc/systemd/system/honeypot-watcher.service
 	@systemctl daemon-reload
