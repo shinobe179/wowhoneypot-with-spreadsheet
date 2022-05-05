@@ -1,3 +1,15 @@
+# 註： 本家との差分について
+
+[このリポジトリ](https://github.com/shinobe179/wowhoneypot-with-spreadsheet)のWOWHoneypotは、[本家WOWHoneypot](https://github.com/morihisa/WOWHoneypot)に手を加えたものです。以下の差分があります。 
+
+- IPマスキング機能のオプションが変わっています。
+  - zeroize: 送信元IPアドレスが全て0.0.0.0で記録されます。
+  - hash: 送信元IPアドレスが全てSHA-256ハッシュ値で記録されます。
+  - none: 送信元IPアドレスがそのまま記録されます。
+- access_logに出力される情報の種類が増えています。
+
+---
+
 # WOWHoneypot: 初心者向け! 攻撃者をおもてなしする Web ハニーポット
 
 Welcome to Omotenashi Web Honeypot(WOWHoneypot)は、簡単に構築可能で、シンプルな機能で動作を把握しやすくした、サーバ側低対話型の入門用 Web ハニーポットです。
