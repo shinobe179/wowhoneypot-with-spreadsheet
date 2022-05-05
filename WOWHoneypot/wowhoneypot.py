@@ -17,6 +17,7 @@ import logging.handlers
 import socket
 import select
 import urllib.parse
+import hashlib
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from mrr_checker import parse_mrr
 from datetime import datetime, timedelta, timezone
@@ -42,7 +43,7 @@ mrrids = []
 timeout = 3.0
 blocklist = {}
 separator = " "
-ipmasking = False
+ipmasking = "none"
 
 class WOWHoneypotHTTPServer(HTTPServer):
     def server_bind(self):
@@ -62,12 +63,14 @@ class WOWHoneypotRequestHandler(BaseHTTPRequestHandler):
         self.error_content_type = "text/plain"
 
     def handle_one_request(self):
-        if ipmasking == True:
+        if ipmasking == "zeroize":
             clientip = "0.0.0.0"
+        elif ipmasking == "hash":
+            clientip = hashlib.sha256(self.client_address[0].encode()).hexdigest()
         else:
             clientip = self.client_address[0]
 
-        if not ipmasking and clientip in blocklist and blocklist[clientip] > 3:
+        if ipmasking != 'zeroize' and clientip in blocklist and blocklist[clientip] > 3:
             logging_system("Access from blocklist ip({0}). denied.".format(clientip), True, False)
             self.close_connection = True
             return
@@ -335,10 +338,12 @@ def config_load():
                 huntlog_name = line.split('=')[1].strip()
             if line.startswith("ipmasking"):
                 global ipmasking
-                if line.split('=')[1].strip() == "True":
-                    ipmasking = True
+                if line.split('=')[1].strip() == "zeroize":
+                    ipmasking = "zeroize"
+                elif line.split('=')[1].strip() == "hash":
+                    ipmasking = "hash"
                 else:
-                    ipmasking = False
+                    ipmasking = "none"
 
         global accesslogfile
         accesslogfile = os.path.join(logpath, accesslogfile_name)

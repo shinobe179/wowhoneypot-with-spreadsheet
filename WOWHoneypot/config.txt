@@ -29,5 +29,7 @@ syslogport=514
 hunt_enable=False
 huntlog=hunting.log
 
-# for GDPR(True: replace source ip address with 0.0.0.0)
-ipmasking=False
+# for GDPR
+# - zeroize: replace source ip address with 0.0.0.0
+# - hash: replace source ip address with its hash 
+ipmasking=hash
