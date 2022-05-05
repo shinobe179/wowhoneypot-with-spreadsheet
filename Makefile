@@ -36,3 +36,36 @@ iptables:
 	@service iptables save
 	@systemctl enable --now iptables
 
+delete-honeypot:
+	@systemctl disable --now WOWHoneypot.service
+	@rm /etc/systemd/system/WOWHoneypot.service
+	@systemctl daemon-reload
+	@rm /etc/logrotate.d/WOWHoneypot
+	@rm -rf /opt/WOWHoneypot
+
+delete-watcher:
+	@systemctl disable --now honeypot-watcher.service
+	@rm /etc/systemd/system/honeypot-watcher.service
+	@systemctl daemon-reload
+	@rm -rf /opt/honeypot-watcher
+
+delete-iptables:
+	@echo "[NOTE}Please delete the rule by yourself."
+	@echo "[NOTE}e.g. sudo iptables -nL --line-numbers -t nat"
+	@echo "[NOTE}e.g. sudo iptables -t nat -D PREROUTING {number}"
+	@echo "[NOTE}e.g. sudo service iptables save"
+	@echo "[NOTE}e.g. sudo systemctl restart iptables"
+
+delete-init:
+	@userdel honeypotter
+
+delete-all:
+	@make delete-honeypot
+	@make delete-watcher
+	@make delete-iptables
+	@make delete-init
+
+
+reset:
+	@make delete-all
+	@make run
