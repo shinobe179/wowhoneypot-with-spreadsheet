@@ -14,6 +14,8 @@
 
 # セットアップ方法
 
+画像付きのより詳しい手順は[こちら](https://shinobe179.hatenablog.com/entry/2022/05/05/013149)をご覧ください。
+
 ## 事前準備
 
 - Google Workspacesのアカウント
