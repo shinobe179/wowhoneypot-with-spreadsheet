@@ -32,4 +32,4 @@ huntlog=hunting.log
 # for GDPR
 # - zeroize: replace source ip address with 0.0.0.0
 # - hash: replace source ip address with its hash 
-ipmasking=hash
+ipmasking=none
