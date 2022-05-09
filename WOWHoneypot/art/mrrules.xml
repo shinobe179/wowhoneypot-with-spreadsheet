@@ -768,4 +768,18 @@ uid=0(root) gid=0(root) groups=0(root)
       <body>z!ax</body>
     </response>
   </mrr>
+  <mrr>
+    <meta>
+      <mrrid>10245</mrrid>
+      <enable>True</enable>
+      <note>F5 BIG-IP CVE-2022-1388</note>
+    </meta>
+    <trigger>
+      <uri>/mgmt/shared/authn/login</uri>
+    </trigger>
+    <response>
+      <status>401</status>
+      <body>resterrorresponse</body>
+    </response>
+  </mrr>
 </mrrs>
