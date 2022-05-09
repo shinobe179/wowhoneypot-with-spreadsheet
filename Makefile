@@ -16,6 +16,7 @@ honeypot:
 	@cp -p ./systemd/WOWHoneypot.service /etc/systemd/system/WOWHoneypot.service
 	@systemctl daemon-reload
 	@systemctl enable --now WOWHoneypot.service
+	@systemctl status WOWHoneypot.service
 
 watcher:
 	@cp -rp ./honeypot-watcher /opt/honeypot-watcher
@@ -27,6 +28,7 @@ watcher:
 	@systemctl enable --now honeypot-watcher.service
 	@echo "[NOTE] If valid client_secret.json is not set in /opt/honeypot-watcher, honeypot-watcher.service will be failed soon."
 	@echo "[NOTE] Please set up Google Cloud Sheet and Drive API, put client_secret.json in /opt/honeypot-watcher, and restart the service."
+	@systemctl status honeypot-watcher.service
 
 iptables:
 	@yum -y install iptables-services
@@ -69,3 +71,8 @@ delete-all:
 reset:
 	@make delete-all
 	@make run
+
+update-mrrules:
+	@sudo cp WOWHoneypot/art/mrrules.xml /opt/WOWHoneypot/art/mrrules.xml
+	@sudo systemctl restart WOWHoneypot.service
+	@systemctl status WOWHoneypot.service
